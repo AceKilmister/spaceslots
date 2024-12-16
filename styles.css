@@ -1,0 +1,828 @@
+
+
+
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body - Centering content vertically and horizontally */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    position: relative; /* For positioning pseudo-elements */
+    background-image: url('images/spacegif.gif'), url('images/redbg.png'), url('images/bluebg.png'); /* Set the background layers */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index: -1; /* Send the body background images to the back */
+}
+
+/* Slot Container - Stacks the columns horizontally */
+.slot-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px; /* Space between columns */
+    overflow: hidden; /* Prevent symbols from spilling out */
+    width: 500px; /* Limit the container width */
+    height: 300px; /* Height for 3 rows */
+    z-index: 10; /* Bring slot container in front */
+}
+
+/* Slot Column - Each column is vertically aligned */
+.slot-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px; /* Space between symbols */
+}
+
+/* Slot Symbol */
+.symbol {
+    width: 80px;  /* Set the size of the slot symbols */
+    height: 100px; /* Ensure the height matches the symbol size */
+    object-fit: contain; /* Ensure the image scales properly within the box */
+    transition: transform 0.5s ease-in-out; /* Smooth transition for movement */
+}
+
+/* Spin Button */
+#spinButton {
+    margin-top: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, filter 0.3s;
+    z-index: 10; /* Bring the button in front */
+}
+
+#spinButton:hover {
+    background-color: #45a049;
+}
+
+/* Add the spinning class for columns */
+.spinning {
+    animation: spinEffect 3s ease-in-out forwards;
+}
+
+/* Keyframe animation for spinning columns */
+@keyframes spinEffect {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-300px); /* Move up to simulate fast spin */
+    }
+    100% {
+        transform: translateY(0); /* Stop at original position */
+    }
+}
+
+/* Add the glitching class for columns */
+.glitch {
+    animation: glitchEffect 1s ease-in-out infinite;
+}
+
+/* Keyframe animation for glitch effect (moving downward) */
+@keyframes glitchEffect {
+    0% {
+        transform: translateY(0); /* Initial position */
+    }
+    25% {
+        transform: translateY(30px); /* Move downward */
+    }
+    50% {
+        transform: translateY(70px); /* Move further down */
+    }
+    75% {
+        transform: translateY(40px); /* Slightly adjust downward */
+    }
+    100% {
+        transform: translateY(0); /* Back to the original position */
+    }
+}
+
+/* Optionally, add a flicker effect to make the glitch more intense */
+@keyframes flickerEffect {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.2; /* Dim the symbols */
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.glitch-flicker {
+    animation: flickerEffect 0.1s ease-in-out infinite;
+}
+
+/* Control the opacity and brightness of the background layers (spacegif, redbg, bluebg) */
+body::before {
+    content: ''; /* Empty content for the overlay */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('images/spacegif.gif'); /* Set spacegif as the bottom-most layer */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1; /* Set opacity to 0 to make it invisible */
+    filter: brightness(.5); /* Reduce brightness of spacegif */
+    pointer-events: none; /* Prevent overlay from blocking interaction */
+}
+
+body::after {
+    content: ''; /* Empty content for the overlay */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('images/redbg.png'); /* Set redbg as the middle layer */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: .3; /* Set opacity for redbg */
+    filter: brightness(0.7); /* Adjust brightness for redbg */
+    pointer-events: none; /* Prevent overlay from blocking interaction */
+}
+
+body::before {
+    content: ''; /* Empty content for the overlay */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('images/bluebg.png'); /* Set bluebg as the top-most layer */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.6; /* Set opacity for bluebg */
+    filter: brightness(1.5); /* Increase brightness for bluebg */
+    pointer-events: none; /* Prevent overlay from blocking interaction */
+}
+
+/* Slot styles */
+.slot {
+    z-index: 10;  /* Ensure slots are above background layers */
+    filter: brightness(2.5);  /* Increase brightness of slot symbols */
+    opacity: 1;  /* Ensure full opacity for slots */
+}
+
+/* Slot specific background styling */
+.slot {
+    background-color: rgb(255, 255, 255);  /* Set a solid background color */
+    flex-grow: 1;  /* Make the slot grow to fill available space */
+}
+
+
+
+body::after {
+    content: ''; /* Empty content for the overlay */
+    position: absolute;
+    top: -625px; /* Adjust vertical position from the top of the viewport */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    width: 650px; /* Adjust width of the image */
+    height: auto; /* Adjust height of the image */
+    background-image: url('images/centertitle.png'); /* Set centertitle as the top-most layer */
+    background-size: contain; /* Ensure the image fits within the set width/height */
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1; /* Set opacity */
+    filter: brightness(1); /* Adjust brightness */
+    pointer-events: none; /* Prevent overlay from blocking interaction */
+}
+
+
+
+
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body - Centering content vertically and horizontally */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    position: relative; /* For positioning overlay images */
+}
+
+/* Slot Container - Stacks the columns horizontally */
+.slot-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    overflow: hidden;
+    width: 800px;
+    height: 600px;
+    margin-top: 220px
+}
+
+/* Slot Column - Each column is vertically aligned */
+.slot-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+/* Slot Symbol */
+.symbol {
+    width: 160px;
+    height: 120px;
+    object-fit: contain;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Spin Button */
+#spinButton {
+    margin-bottom: 90px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4caf4f00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#spinButton:hover {
+    background-color: #45a0493b;
+}
+
+/* Images - Container for all images */
+.image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allow interaction with other elements */
+}
+
+/* Spin Image */
+#spinImage {
+    position: absolute;
+    bottom: 62px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 80px;
+    background-image: url('images/spin.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 1;
+}
+
+
+
+
+.slot-container {
+    position: relative;
+    border: 5px solid silver; /* Existing silver border */
+    background-color: rgba(0, 0, 0, 0.3); /* Mild transparent black background */
+    padding: 10px;
+}
+
+/* Left border image */
+.slot-container::before {
+    content: '';
+    position: absolute;
+    left: -20px; /* Adjust the position as needed */
+    top: 0;
+    bottom: 0;
+    width: 20px; /* Set the width of the left image */
+    background-image: url('images/leftborder.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.7; /* Default opacity (you can change this) */
+}
+
+/* Right border image */
+.slot-container::after {
+    content: '';
+    position: absolute;
+    right: -20px; /* Adjust the position as needed */
+    top: 0;
+    bottom: 0;
+    width: 20px; /* Set the width of the right image */
+    background-image: url('images/rightborder.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.7; /* Default opacity (you can change this) */
+}
+
+
+/* Slot Container - Stacks the columns horizontally */
+.slot-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    overflow: hidden;
+    width: 800px;
+    height: 600px;
+    margin-top: 220px;
+    border: 5px solid silver; /* Existing silver border */
+    background-color: rgba(0, 0, 0, 0.3); /* Mild transparent black background */
+    padding: 10px;
+}
+
+/* Left border image */
+.slot-container::before {
+    content: '';
+    position: absolute;
+    left: -20px; /* Adjust the position as needed */
+    top: 0;
+    bottom: 0;
+    width: 20px; /* Set the width of the left image */
+    background-image: url('images/leftborder.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.7; /* Default opacity (you can change this) */
+}
+
+/* Right border image */
+.slot-container::after {
+    content: '';
+    position: absolute;
+    right: -20px; /* Adjust the position as needed */
+    top: 0;
+    bottom: 0;
+    width: 20px; /* Set the width of the right image */
+    background-image: url('images/rightborder.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.7; /* Default opacity (you can change this) */
+}
+
+
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body - Centering content vertically and horizontally */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    position: relative; /* For positioning overlay images */
+}
+
+/* Slot Container - Stacks the columns horizontally */
+.slot-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    overflow: hidden;
+    width: 800px;
+    height: 600px;
+    margin-top: 220px;
+    position: relative;
+    border: 5px solid silver;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+}
+
+/* Slot Column - Each column is vertically aligned */
+.slot-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+/* Slot Symbol */
+.symbol {
+    width: 160px;
+    height: 120px;
+    object-fit: contain;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Spin Button */
+#spinButton {
+    margin-bottom: 90px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4caf4f00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#spinButton:hover {
+    background-color: #45a0493b;
+}
+
+/* Images - Container for all images */
+.image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allow interaction with other elements */
+}
+
+/* Spin Image */
+#spinImage {
+    position: absolute;
+    bottom: 62px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 80px;
+    background-image: url('images/spin.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 1;
+}
+
+
+/* Add a class for the Astro GIF to position it */
+.left-br {
+    position: absolute;
+    top: 50%; /* Centers vertically */
+    left: 18%; /* Centers horizontally */
+    transform: translate(-50%, -50%); /* Adjusts for exact center positioning */
+    z-index: 10; /* Ensures the GIF appears above other elements */
+    width: 500px; /* Adjust width as needed */
+    height: 500px; /* Adjust height as needed */
+    opacity : 0.5
+
+}
+
+.right-br {
+    position: absolute;
+    top: 50%; /* Centers vertically */
+    right: -13.3%; /* Centers horizontally */
+    transform: translate(-50%, -50%); /* Adjusts for exact center positioning */
+    z-index: 10; /* Ensures the GIF appears above other elements */
+    width: 500px; /* Adjust width as needed */
+    height: 500px; /* Adjust height as needed */
+    opacity : 0.5
+
+}
+
+.astro2 {
+    position: absolute;
+    top: 7%; /* Centers vertically */
+    right: 10%; /* Centers horizontally */
+    transform: translate(-40%, -50%)rotate(45deg);; /* Adjusts for exact center positioning */
+    z-index: 10; /* Ensures the GIF appears above other elements */
+    width: 200px; /* Adjust width as needed */
+    height: 300px; /* Adjust height as needed */
+    opacity : .8
+}
+
+.astro1 {
+    position: absolute;
+    top: 8%; /* Centers vertically */
+    right: 75%; /* Centers horizontally */
+    transform: translate(-40%, -50%)rotate(45deg);; /* Adjusts for exact center positioning */
+    z-index: 10; /* Ensures the GIF appears above other elements */
+    width: 200px; /* Adjust width as needed */
+    height: 300px; /* Adjust height as needed */
+    opacity : 1
+}
+
+.astro4 {
+    position: absolute;
+    top: 80%; /* Centers vertically */
+    right: 70%; /* Centers horizontally */
+    transform: translate(-40%, -50%)rotate(0deg);; /* Adjusts for exact center positioning */
+    z-index: 10; /* Ensures the GIF appears above other elements */
+    width: 200px; /* Adjust width as needed */
+    height: 300px; /* Adjust height as needed */
+    opacity : 1
+}
+
+
+.rocketr {
+    position: absolute;
+    bottom: 0%; /* Centers vertically */
+    left: 78%; /* Centers horizontally */
+    transform: translate(-50%, -50%)rotate(45deg);; /* Adjusts for exact center positioning */
+    z-index: 10; /* Ensures the GIF appears above other elements */
+    width: 200px; /* Adjust width as needed */
+    height: 300px; /* Adjust height as needed */
+    opacity : 1
+}
+
+@keyframes shake {
+    0%, 100% {
+      transform: translateX(0); /* No shake */
+    }
+    25% {
+      transform: translateX(-10px); /* Shake left */
+    }
+    50% {
+      transform: translateX(10px); /* Shake right */
+    }
+    75% {
+      transform: translateX(-10px); /* Shake left again */
+    }
+  }
+  
+  @keyframes wobble {
+    0%, 100% {
+      transform: translateX(0) rotateY(0deg); /* No wobble, no rotation */
+    }
+    25% {
+      transform: translateX(-5px) rotateY(-5deg); /* Slight left shift and mild rotation */
+    }
+    50% {
+      transform: translateX(5px) rotateY(5deg); /* Slight right shift and mild rotation */
+    }
+    75% {
+      transform: translateX(-5px) rotateY(-5deg); /* Slight left shift and mild rotation again */
+    }
+  }
+  
+  @keyframes zoomInOut {
+    0%, 100% {
+      transform: scale(1); /* Original size */
+    }
+    50% {
+      transform: scale(1.02); /* Zoom in */
+    }
+  }
+  
+  .astro2 {
+    animation: 
+      shake 1s ease-in-out infinite,    /* Shake effect */
+      wobble 3s ease-in-out infinite,   /* Wobble effect */
+      zoomInOut 5s ease-in-out infinite; /* Zoom effect */
+  }
+  
+
+
+
+  /* Define the keyframe animations */
+@keyframes wobble {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-15deg); }
+    50% { transform: rotate(55deg); }
+    75% { transform: rotate(-15deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes zoomInOut {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-80px); }
+    50% { transform: translateX(80px); }
+    75% { transform: translateX(-80px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes horizontalRotation {
+    0% { transform: rotateY(10deg); }
+    50% { transform: rotateY(15deg); }
+    100% { transform: rotateY(10deg); }
+}
+
+/* Apply animations to the rocketr image */
+.rocketr {
+    animation: 
+        wobble 2s infinite,           /* Wobble effect */
+        zoomInOut 4s infinite,        /* Zoom in and out effect */
+        shake 1s infinite,            /* Shake effect */
+        horizontalRotation 4s infinite; /* Horizontal rotation effect */
+}
+
+#winMessage {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00ff3c;
+    margin-top: 20px;
+}
+
+@keyframes shake {
+    0%, 100% {
+      transform: translateX(0); /* No shake */
+    }
+    25% {
+      transform: translateX(-10px); /* Shake left */
+    }
+    50% {
+      transform: translateX(10px); /* Shake right */
+    }
+    75% {
+      transform: translateX(-10px); /* Shake left again */
+    }
+  }
+  
+  @keyframes wobble {
+    0%, 100% {
+      transform: translateX(0) rotateY(0deg); /* No wobble, no rotation */
+    }
+    25% {
+      transform: translateX(-5px) rotateY(-5deg); /* Slight left shift and mild rotation */
+    }
+    50% {
+      transform: translateX(5px) rotateY(5deg); /* Slight right shift and mild rotation */
+    }
+    75% {
+      transform: translateX(-5px) rotateY(-5deg); /* Slight left shift and mild rotation again */
+    }
+  }
+  
+  @keyframes zoomInOut {
+    0%, 100% {
+      transform: scale(1); /* Original size */
+    }
+    50% {
+      transform: scale(1.02); /* Zoom in */
+    }
+  }
+  
+  .astro1 {
+    animation: 
+      shake 1s ease-in-out infinite,    /* Shake effect */
+      wobble 3s ease-in-out infinite,   /* Wobble effect */
+      zoomInOut 5s ease-in-out infinite; /* Zoom effect */
+  }  
+
+
+
+
+  @keyframes bounceFadeColorChange {
+    0% {
+        transform: translateY(0); /* Start at normal position */
+        opacity: 0; /* Start with invisible title */
+        color: #ff0000; /* Start with a red color */
+    }
+    30% {
+        transform: translateY(-10px); /* Move up slightly */
+        opacity: 1; /* Make the title fully visible */
+        color: #00ff00; /* Change color to green */
+    }
+    50% {
+        transform: translateY(0); /* Return to the normal position */
+        color: #0000ff; /* Change color to blue */
+    }
+    70% {
+        transform: translateY(-5px); /* Slight up movement */
+        color: #ff00ff; /* Change color to purple */
+    }
+    100% {
+        transform: translateY(0); /* Return to normal position */
+        color: #ff0000; /* End with red color */
+    }
+}
+
+.centertitle {
+    animation: bounceFadeColorChange 3s ease-in-out infinite; /* Apply the animation */
+}
+
+
+/* Glow and Zoom effect for matching symbols */
+.symbol.highlight {
+    animation: highlightZoom 1s ease-in-out;
+}
+
+@keyframes highlightZoom {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 255, 0, 1);
+    }
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 20px rgba(255, 255, 0, 1);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 255, 0, 1);
+    }
+}
+
+
+/* Style for the 'You Win!' message */
+#winMessage {
+    display: none;
+    font-size: 24px;
+    color: green;
+    text-align: center;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Highlight effect for winning symbols (add glow and zoom effect) */
+.symbol.highlight {
+    animation: glowZoom 1s ease-out forwards;
+}
+
+@keyframes glowZoom {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+    100% {
+        transform: scale(1.2);
+        box-shadow: 0 0 20px rgba(0, 255, 0, 1);
+    }
+}
+
+
+/* Glow and rotation animation */
+@keyframes glowRotate {
+    0% {
+        transform: rotate(0deg);
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        transform: rotate(180deg);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 1);
+    }
+    100% {
+        transform: rotate(360deg);
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Animation for disappearing the symbol */
+@keyframes disappear {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+/* Class for glowing and rotating winning symbols */
+.symbol.winning {
+    animation: glowRotate 1s ease-in-out forwards;
+}
+
+/* Class for disappearing winning symbols */
+.symbol.disappear {
+    animation: disappear 1s ease-out forwards;
+}
+
+/* Optional: Style for the win message */
+#winMessage {
+    font-family: 'Roboto', sans-serif; /* Apply the Roboto font */
+    font-size: 3em;
+    font-weight: bold;
+    color: #0af302;
+    display: none; /* Initially hidden */
+    text-align: center;
+    margin-top: 350px;
+}
